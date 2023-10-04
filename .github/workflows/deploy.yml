@@ -16,15 +16,30 @@ env:
 
 jobs:
   setup:
-    environment: ${{ github.event_name == 'push' && github.ref == 'refs/heads/main' ? 'testing' : github.event_name == 'push' && github.ref == 'refs/tags/STAGING' ? 'staging' : github.event_name == 'push' && github.ref == 'refs/tags/LATEST' ? 'production' : 'unknown' } }
     runs-on: ubuntu-latest
+    outputs:
+        environment: ${{ env.ENVIRONMENT }}
     steps:
+
+      - name: Set Environment
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "ENVIRONMENT=testing" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/tags/STAGING" ]]; then
+            echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/tags/LATEST" ]]; then
+            echo "ENVIRONMENT=production" >> $GITHUB_ENV
+          else
+            echo "Unsupported event or branch/tag"
+            exit 1
+          fi
 
       - name: Show environment
         run: |
           echo "github.event_name: ${{ github.event_name }}"
           echo "github.ref: ${{ github.ref }}"
-          echo "ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
+          echo "env.ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+          echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
 
       - name: Checkout code
         uses: actions/checkout@v4
@@ -39,6 +54,7 @@ jobs:
 
   deploy:
     needs: setup
+    environment: ${{ needs.setup.outputs.environment }}
     runs-on: ubuntu-latest
     steps:
 
