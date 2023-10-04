@@ -57,7 +57,9 @@ jobs:
         run: |
           echo "github.event_name: ${{ github.event_name }}"
           echo "github.ref: ${{ github.ref }}"
+          echo "vars.UNIQUE_ID: ${{ vars.UNIQUE_ID }}"
           echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
+          echo "env.ENVIRONMENT: ${{ env.ENVIRONMENT }}"
 
       - name: Download artifact
         uses: actions/download-artifact@v3
