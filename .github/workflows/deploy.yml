@@ -41,7 +41,7 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v4
 
-      - name: Export repository
+      - name: Tar repository
         run: |
           cd ..
           tar -czf repository.tar.gz -C deploy-workflow --exclude=".git" .
@@ -50,17 +50,30 @@ jobs:
           pwd
           ls -lAh
 
+      - name: Cache repository
+        uses: actions/cache@v3
+        with:
+          path: repository.tar.gz
+          key: ${{ runner.os }}-repository-${{ github.sha }}
+
   build:
     runs-on: ubuntu-latest
     needs: checkout
     steps:
 
-      - name: Import repository
+      - name: Retrieve repository
+        uses: actions/cache@v3
+        with:
+          path: repository.tar.gz
+          key: ${{ runner.os }}-repository-${{ github.sha }}
+
+      - name: Extract repository
         run: |
           pwd
           ls -lAh
-          [ ! -e repository.tar.gz ] && echo "repository.tar.gz not found" && exit 1
           tar -xzf repository.tar.gz
+          rm repository.tar.gz
+          ls -lAh
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
