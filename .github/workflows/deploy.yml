@@ -19,6 +19,19 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Set Environment
+        run: |
+          if [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/heads/main" ]]; then
+            echo "ENVIRONMENT=testing" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/tags/LATEST" ]]; then
+            echo "ENVIRONMENT=production" >> $GITHUB_ENV
+          elif [[ "${{ github.event_name }}" == "push" && "${{ github.ref }}" == "refs/tags/STAGING" ]]; then
+            echo "ENVIRONMENT=staging" >> $GITHUB_ENV
+          else
+            echo "Unsupported event or branch/tag"
+            exit 1
+          fi
+
       - name: Show environment
         run: |
           echo "github.event_name: ${{ github.event_name }}"
