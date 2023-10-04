@@ -47,6 +47,8 @@ jobs:
           tar -czf repository.tar.gz -C deploy-workflow --exclude=".git" .
           mv repository.tar.gz deploy-workflow/
           cd deploy-workflow
+          pwd
+          ls -lAh
           [ ! -e repository.tar.gz ] && echo "repository.tar.gz not found" && exit 1
 
   build:
@@ -56,6 +58,8 @@ jobs:
 
       - name: Import repository
         run: |
+          pwd
+          ls -lAh
           [ ! -e repository.tar.gz ] && echo "repository.tar.gz not found" && exit 1
           tar -xzf repository.tar.gz
 
