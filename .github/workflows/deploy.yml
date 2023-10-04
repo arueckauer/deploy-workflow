@@ -24,7 +24,7 @@ jobs:
           echo "github.ref: ${{ github.ref }}"
           echo "ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
       - name: Checkout code
-        uses: actions/checkout@v2
+        uses: actions/checkout@v4
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
