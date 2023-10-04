@@ -34,13 +34,6 @@ jobs:
             exit 1
           fi
 
-      - name: Show environment
-        run: |
-          echo "github.event_name: ${{ github.event_name }}"
-          echo "github.ref: ${{ github.ref }}"
-          echo "env.ENVIRONMENT: ${{ env.ENVIRONMENT }}"
-          echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
-
   deploy:
     needs: setup
     environment: ${{ needs.setup.outputs.environment }}
@@ -64,11 +57,7 @@ jobs:
         run: |
           echo "github.event_name: ${{ github.event_name }}"
           echo "github.ref: ${{ github.ref }}"
-          echo "env.ENVIRONMENT: ${{ env.ENVIRONMENT }}"
           echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
-          echo "needs.setup.outputs.environment: ${{ needs.setup.outputs.environment }}"
-          echo "known hosts:"
-          cat ~/.ssh/known_hosts
 
       - name: Deploy to Testing
         run: scp index.md ${{ secrets.SCP_USERNAME }}@${{ secrets.SCP_HOST }}:${{ env.RELEASES_PATH }}${{ vars.ENVIRONMENT }}
