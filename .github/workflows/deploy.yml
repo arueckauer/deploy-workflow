@@ -40,6 +40,12 @@ jobs:
     runs-on: ubuntu-latest
     steps:
 
+      - name: Show environment
+        run: |
+          echo "github.event_name: ${{ github.event_name }}"
+          echo "github.ref: ${{ github.ref }}"
+          echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
+
       - name: Checkout code
         uses: actions/checkout@v4
 
@@ -52,12 +58,6 @@ jobs:
           ssh ${{ secrets.SCP_USERNAME }}@${{ secrets.SCP_HOST }} "echo 'SSH connection successful'" || exit 1
           echo "known hosts:"
           cat ~/.ssh/known_hosts
-
-      - name: Show environment
-        run: |
-          echo "github.event_name: ${{ github.event_name }}"
-          echo "github.ref: ${{ github.ref }}"
-          echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
 
       - name: Deploy
         run: scp index.md ${{ secrets.SCP_USERNAME }}@${{ secrets.SCP_HOST }}:${{ env.RELEASES_PATH }}${{ vars.ENVIRONMENT }}
