@@ -45,8 +45,7 @@ jobs:
         run: |
           cd ..
           tar -czf repository.tar.gz -C deploy-workflow --exclude=".git" .
-          echo "repository=repository.tar.gz" >> "$GITHUB_OUTPUT"
-        id: repository
+          mv repository.tar.gz deploy-workflow/
 
   build:
     runs-on: ubuntu-latest
@@ -55,9 +54,8 @@ jobs:
 
       - name: Import repository
         run: |
-          echo "Importing repository ${{ needs.checkout.outputs.repository }}"
-          tar -xzf ${{ needs.checkout.outputs.repository }}
-        id: repository
+          [! -f repository.tar.gz ] && echo "repository.tar.gz not found" && exit 1
+          tar -xzf repository.tar.gz
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
