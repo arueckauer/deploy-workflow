@@ -52,7 +52,7 @@ jobs:
           path: index.md
 
   deploy:
-    needs: setup
+    needs: [setup, build]
     environment: ${{ needs.setup.outputs.environment }}
     runs-on: ubuntu-latest
     steps:
