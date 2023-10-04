@@ -9,7 +9,7 @@ on:
       - LATEST
       - STAGING
 concurrency:
-  group: ${{ github.workflow }}
+  group: ${{ github.ref }}
 
 env:
   RELEASES_PATH: "~/arueckauer-deploy-workflow/"
