@@ -45,6 +45,8 @@ jobs:
         run: |
           cd ..
           tar -czf repository.tar.gz -C deploy-workflow --exclude=".git" .
+          mv repository.tar.gz deploy-workflow/
+          cd deploy-workflow
 
       - name: Cache repository
         uses: actions/cache@v3
