@@ -18,13 +18,16 @@ jobs:
   setup:
     runs-on: ubuntu-latest
     steps:
+
       - name: Show environment
         run: |
           echo "github.event_name: ${{ github.event_name }}"
           echo "github.ref: ${{ github.ref }}"
           echo "ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
+
       - name: Checkout code
         uses: actions/checkout@v4
+
       - name: Configure SSH
         run: |
           mkdir -p ~/.ssh
@@ -37,5 +40,6 @@ jobs:
     needs: setup
     runs-on: ubuntu-latest
     steps:
+
       - name: Deploy to Testing
         run: scp index.md ${{ secrets.SCP_USERNAME }}@${{ secrets.SCP_HOST }}:${{ env.RELEASES_PATH }}${{ vars.ENVIRONMENT }}
