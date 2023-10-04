@@ -34,12 +34,29 @@ jobs:
             exit 1
           fi
 
-  build:
+  checkout:
+    name: Checkout code
     runs-on: ubuntu-latest
-    steps:
 
+    steps:
       - name: Checkout code
         uses: actions/checkout@v4
+
+      - name: Export repository
+        run: |
+          tar -czf repository.tar.gz -C . .
+          echo "::set-output name=repository::repository.tar.gz"
+        id: repository
+
+  build:
+    runs-on: ubuntu-latest
+    needs: checkout
+    steps:
+
+      - name: Import repository
+        run: |
+          tar -xzf ${{ needs.checkout.outputs.repository }}
+        id: repository
 
       - name: Upload artifact
         uses: actions/upload-artifact@v3
