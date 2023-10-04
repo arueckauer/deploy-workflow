@@ -34,6 +34,23 @@ jobs:
             exit 1
           fi
 
+  build:
+    runs-on: ubuntu-latest
+    steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Build
+        run: |
+          echo "Build ${{ env.ENVIRONMENT }}"
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: index.md
+          path: index.md
+
   deploy:
     needs: setup
     environment: ${{ needs.setup.outputs.environment }}
@@ -46,8 +63,11 @@ jobs:
           echo "github.ref: ${{ github.ref }}"
           echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
 
-      - name: Checkout code
-        uses: actions/checkout@v4
+      - name: Download artifact
+        uses: actions/download-artifact@v3
+        with:
+          name: index.md
+          path: .
 
       - name: Configure SSH
         run: |
