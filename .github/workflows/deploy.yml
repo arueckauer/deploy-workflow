@@ -41,14 +41,14 @@ jobs:
           echo "env.ENVIRONMENT: ${{ env.ENVIRONMENT }}"
           echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
 
-      - name: Checkout code
-        uses: actions/checkout@v4
-
   deploy:
     needs: setup
     environment: ${{ needs.setup.outputs.environment }}
     runs-on: ubuntu-latest
     steps:
+
+      - name: Checkout code
+        uses: actions/checkout@v4
 
       - name: Configure SSH
         run: |
