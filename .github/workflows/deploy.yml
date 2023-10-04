@@ -46,7 +46,7 @@ jobs:
         run: |
           cd ..
           tar -czf repository.tar.gz -C deploy-workflow --exclude=".git" .
-          echo "::set-output name=repository::repository.tar.gz"
+          echo "{repository}={repository.tar.gz}" >> $GITHUB_OUTPUT
         id: repository
 
   build:
