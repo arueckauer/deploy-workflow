@@ -51,12 +51,24 @@ jobs:
           chmod 600 ~/.ssh/id_ed25519
           ssh-keyscan -H ${{ secrets.SCP_HOST }} >> ~/.ssh/known_hosts
           ssh ${{ secrets.SCP_USERNAME }}@${{ secrets.SCP_HOST }} "echo 'SSH connection successful'" || exit 1
+          echo "known hosts:"
+          cat ~/.ssh/known_hosts
 
   deploy:
     needs: setup
     environment: ${{ needs.setup.outputs.environment }}
     runs-on: ubuntu-latest
     steps:
+
+      - name: Show environment
+        run: |
+          echo "github.event_name: ${{ github.event_name }}"
+          echo "github.ref: ${{ github.ref }}"
+          echo "env.ENVIRONMENT: ${{ env.ENVIRONMENT }}"
+          echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
+          echo "needs.setup.outputs.environment: ${{ needs.setup.outputs.environment }}"
+          echo "known hosts:"
+          cat ~/.ssh/known_hosts
 
       - name: Deploy to Testing
         run: scp index.md ${{ secrets.SCP_USERNAME }}@${{ secrets.SCP_HOST }}:${{ env.RELEASES_PATH }}${{ vars.ENVIRONMENT }}
