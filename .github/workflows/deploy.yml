@@ -55,6 +55,7 @@ jobs:
 
       - name: Import repository
         run: |
+          echo "Importing repository ${{ needs.checkout.outputs.repository }}"
           tar -xzf ${{ needs.checkout.outputs.repository }}
         id: repository
 
