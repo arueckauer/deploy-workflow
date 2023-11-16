@@ -1,9 +1,9 @@
-name: Check backend
+name: Check backend (single job)
 
 on:
   pull_request:
 
-  backend:
+  backend_single_job:
     runs-on: ubuntu-latest
     permissions:
       pull-requests: read
