@@ -22,7 +22,10 @@ jobs:
               - *phpunit
 
       - name: Show filter output
-        run: echo ${{ steps.filter.outputs }}
+        run: |
+          echo ${{ steps.filter.outputs.php }}
+          echo ${{ steps.filter.outputs.phpunit }}
+          echo ${{ steps.filter.outputs.any }}
 
       - name: Composer
         if: ${{ steps.filter.outputs.php == 'true' }}
