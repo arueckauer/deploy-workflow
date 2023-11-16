@@ -26,9 +26,10 @@ jobs:
 
       - name: Show filter output
         run: |
-          echo ${{ steps.filter.outputs.php }}
-          echo ${{ steps.filter.outputs.phpunit }}
-          echo ${{ steps.filter.outputs.any }}
+          echo "Workflow: ${{ steps.filter.outputs.workflow }}"
+          echo "PHP: ${{ steps.filter.outputs.php }}"
+          echo "PHPUnit: ${{ steps.filter.outputs.phpunit }}"
+          echo "Any: ${{ steps.filter.outputs.any }}"
 
       - name: Composer
         if: ${{ steps.filter.outputs.any == 'true' }}
