@@ -16,7 +16,9 @@ jobs:
         with:
           filters: |
             backend:
-              - 'backend/**'
+              - backend/**
+              - test/**
+              - composer.json
 
   backend:
     needs: changes
@@ -24,4 +26,3 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - run: echo "Backend changed"
-
