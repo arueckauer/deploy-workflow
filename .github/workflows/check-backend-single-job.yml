@@ -24,13 +24,6 @@ jobs:
               - *phpunit
               - *workflow
 
-      - name: Show filter output
-        run: |
-          echo "Workflow: ${{ steps.filter.outputs.workflow }}"
-          echo "PHP: ${{ steps.filter.outputs.php }}"
-          echo "PHPUnit: ${{ steps.filter.outputs.phpunit }}"
-          echo "Any: ${{ steps.filter.outputs.any }}"
-
       - name: Composer
         if: ${{ steps.filter.outputs.any == 'true' }}
         run: echo "Running Composer if anything backend-related changed"
