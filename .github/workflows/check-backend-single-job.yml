@@ -15,11 +15,14 @@ jobs:
           filters: |
             php: &php
               - "**/*.php"
+            workflow: &workflow
+              - .github/workflows/check-backend-single-job.yml
             phpunit: &phpunit
               - *php
               - phpunit.xml.dist
             any:
               - *phpunit
+              - *workflow
 
       - name: Show filter output
         run: |
