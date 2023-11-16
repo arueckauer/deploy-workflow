@@ -1,0 +1,29 @@
+name: Check backend
+
+on:
+  pull_request:
+
+  backend:
+    runs-on: ubuntu-latest
+    permissions:
+      pull-requests: read
+    steps:
+      - uses: dorny/paths-filter@v2
+        id: filter
+        with:
+          filters: |
+            php:
+              - **/*.php
+            phpunit:
+              - **/*.php
+              - phpunit.xml.dist
+            any:
+              - *phpunit
+
+      - name: Composer
+        if: ${{ steps.filter.outputs.php == 'true' }}
+        run: echo "Running Composer if anything backend-related changed"
+
+      - name: PHPUnit
+        if: ${{ steps.filter.outputs.phpunit == 'true' }}
+        run: echo "Running PHPUnit"
