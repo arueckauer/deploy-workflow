@@ -28,7 +28,7 @@ jobs:
           echo ${{ steps.filter.outputs.any }}
 
       - name: Composer
-        if: ${{ steps.filter.outputs.php == 'true' }}
+        if: ${{ steps.filter.outputs.any == 'true' }}
         run: echo "Running Composer if anything backend-related changed"
 
       - name: PHPUnit
