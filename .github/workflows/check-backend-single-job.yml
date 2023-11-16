@@ -13,9 +13,9 @@ jobs:
         id: filter
         with:
           filters: |
-            php: *php
+            php: &php
               - **/*.php
-            phpunit: *phpunit
+            phpunit: &phpunit
               - *php
               - phpunit.xml.dist
             any:
