@@ -3,6 +3,7 @@ name: Check backend (single job)
 on:
   pull_request:
 
+jobs:
   backend_single_job:
     runs-on: ubuntu-latest
     permissions:
