@@ -20,6 +20,9 @@ on:
             any:
               - *phpunit
 
+      - name: Show filter output
+        run: echo ${{ steps.filter.outputs }}
+
       - name: Composer
         if: ${{ steps.filter.outputs.php == 'true' }}
         run: echo "Running Composer if anything backend-related changed"
