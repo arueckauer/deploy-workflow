@@ -12,10 +12,10 @@ on:
         id: filter
         with:
           filters: |
-            php:
+            php: *php
               - **/*.php
-            phpunit:
-              - **/*.php
+            phpunit: *phpunit
+              - *php
               - phpunit.xml.dist
             any:
               - *phpunit
