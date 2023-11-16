@@ -15,17 +15,14 @@ jobs:
           filters: |
             php: &php
               - "**/*.php"
+            workflow: &workflow
+              - .github/workflows/check-backend-single-job.yml
             phpunit: &phpunit
               - *php
               - phpunit.xml.dist
             any:
               - *phpunit
-
-      - name: Show filter output
-        run: |
-          echo ${{ steps.filter.outputs.php }}
-          echo ${{ steps.filter.outputs.phpunit }}
-          echo ${{ steps.filter.outputs.any }}
+              - *workflow
 
       - name: Composer
         if: ${{ steps.filter.outputs.any == 'true' }}
