@@ -105,9 +105,9 @@ jobs:
 
   deploy:
     needs: [setup,generate-release-name, build]
-    environment:
-      ${{ needs.setup.outputs.environment }}
-      ${{ needs.generate-release-name.outputs.release_name }}
+    env:
+      ENVIRONMENT: ${{ needs.setup.outputs.environment }}
+      RELEASE_NAME: ${{ needs.generate-release-name.outputs.release_name }}
     runs-on: ubuntu-latest
     steps:
 
@@ -119,6 +119,7 @@ jobs:
           echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
           echo "env.ENVIRONMENT: ${{ env.ENVIRONMENT }}"
           echo "vars.RELEASE_NAME: ${{ vars.RELEASE_NAME }}"
+          echo "env.RELEASE_NAME: ${{ env.RELEASE_NAME }}"
 
       - name: Download artifact
         uses: actions/download-artifact@v4
