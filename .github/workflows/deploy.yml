@@ -48,15 +48,15 @@ jobs:
         run: |
           COMMIT_HASH=$(git rev-parse --short HEAD || echo "unknown")
           if [ "$COMMIT_HASH" == "unknown" ]; then
-            RELEASE_NAME="unknown"
+            VERSION_NAME="unknown"
           else
             RELEASE_UID=$((0x$COMMIT_HASH))
             VERSION_NAMES=($(cat .version_names))
-            RELEASE_NAME=${VERSION_NAMES[$((RELEASE_UID % ${#VERSION_NAMES[@]}))]}
+            VERSION_NAME=${VERSION_NAMES[$((RELEASE_UID % ${#VERSION_NAMES[@]}))]}
           fi
           TIMESTAMP=$(date +"%Y-%m-%d")
-          SENTRY_RELEASE_NAME="$COMMIT_HASH-$TIMESTAMP ($RELEASE_NAME)"
-          echo "release_name=$SENTRY_RELEASE_NAME" >> $GITHUB_OUTPUT
+          RELEASE_NAME="$COMMIT_HASH-$TIMESTAMP ($VERSION_NAME)"
+          echo "release_name=$RELEASE_NAME" >> $GITHUB_OUTPUT
 
   checkout:
     runs-on: ubuntu-latest
@@ -115,10 +115,7 @@ jobs:
         run: |
           echo "github.event_name: ${{ github.event_name }}"
           echo "github.ref: ${{ github.ref }}"
-          echo "vars.UNIQUE_ID: ${{ vars.UNIQUE_ID }}"
-          echo "vars.ENVIRONMENT: ${{ vars.ENVIRONMENT }}"
           echo "env.ENVIRONMENT: ${{ env.ENVIRONMENT }}"
-          echo "vars.RELEASE_NAME: ${{ vars.RELEASE_NAME }}"
           echo "env.RELEASE_NAME: ${{ env.RELEASE_NAME }}"
 
       - name: Download artifact
