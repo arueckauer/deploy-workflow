@@ -15,17 +15,6 @@ env:
   RELEASES_PATH: "~/arueckauer-deploy-workflow/"
 
 jobs:
-  debug-environment:
-    runs-on: ubuntu-latest
-    steps:
-      - name: Check Environment Variables
-        run: |
-          echo "VERSION_NAMES: $VERSION_NAMES"
-          echo "VERSION_NAMES (vars context): ${{ vars.VERSION_NAMES }}"
-          echo "VERSION_NAMES (env context): ${{ env.VERSION_NAMES }}"
-        env:
-          VERSION_NAMES: ${{ vars.VERSION_NAMES }}
-
   setup:
     runs-on: ubuntu-latest
     outputs:
@@ -48,8 +37,6 @@ jobs:
   generate-release-name:
     runs-on: ubuntu-latest
     needs: setup
-    env:
-      VERSION_NAMES: ${{ vars.VERSION_NAMES }}
     outputs:
       release_name: ${{ steps.generate.outputs.release_name }}
     steps:
@@ -61,11 +48,7 @@ jobs:
             VERSION_NAME="unknown"
           else
             RELEASE_UID=$((0x$COMMIT_HASH))
-            IFS=',' read -r -a VERSION_NAMES <<< "$VERSION_NAMES"
-            if [ ${#VERSION_NAMES[@]} -eq 0 ]; then
-              echo "VERSION_NAMES ist leer, benutze Standardwerte"
-              VERSION_NAMES=("alpha" "beta" "gamma")
-            fi
+            VERSION_NAMES=("Giovanni" "Bertha" "Lewis" "William" "Umberto" "Walter Owen" "Carl Friedrich" "Nuccio" "Giotto" "Jim" "Robert" "Juan-Manuel" "Ettore" "Walter Percy" "André Gustave" "Alain" "Gottlieb" "Rudolf" "Dino" "Lena" "Enzo" "Henry" "Soichiro" "Alberto" "August" "Ferruccio" "Emil" "Jackie" "Vincenzo" "Carl Eugen" "Erwin" "Carroll" "Eliška" "Jean-Joseph" "Ayrton" "Lionel" "Karl" "Wilhelm" "Elon" "Adam" "Sophie" "Nikolaus" "Clärenore" "Gustav" "Armand" "Michael" "Ferdinand" "Franz" "Ferry" "Max" "Herbert" "Walter" "Louis" "Charles Stewart" "Nicola" "Bruno" "Eiji" "Felix")
             VERSION_NAME=${VERSION_NAMES[$((RELEASE_UID % ${#VERSION_NAMES[@]}))]}
           fi
           TIMESTAMP=$(date +"%Y-%m-%d")
