@@ -51,6 +51,10 @@ jobs:
           else
             RELEASE_UID=$((0x$COMMIT_HASH))
             IFS=',' read -r -a VERSION_NAMES <<< "$VERSION_NAMES"
+            if [ ${#VERSION_NAMES[@]} -eq 0 ]; then
+              echo "VERSION_NAMES ist leer, benutze Standardwerte"
+              VERSION_NAMES=("alpha" "beta" "gamma")
+            fi
             VERSION_NAME=${VERSION_NAMES[$((RELEASE_UID % ${#VERSION_NAMES[@]}))]}
           fi
           TIMESTAMP=$(date +"%Y-%m-%d")
