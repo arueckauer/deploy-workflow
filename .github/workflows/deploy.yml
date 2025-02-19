@@ -37,6 +37,8 @@ jobs:
   generate-release-name:
     runs-on: ubuntu-latest
     needs: setup
+    env:
+      VERSION_NAMES: ${{ vars.VERSION_NAMES }}
     outputs:
       release_name: ${{ steps.generate.outputs.release_name }}
     steps:
