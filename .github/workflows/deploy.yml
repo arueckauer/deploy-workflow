@@ -15,6 +15,17 @@ env:
   RELEASES_PATH: "~/arueckauer-deploy-workflow/"
 
 jobs:
+  debug-environment:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Check Environment Variables
+        run: |
+          echo "VERSION_NAMES: $VERSION_NAMES"
+          echo "VERSION_NAMES (vars context): ${{ vars.VERSION_NAMES }}"
+          echo "VERSION_NAMES (env context): ${{ env.VERSION_NAMES }}"
+        env:
+          VERSION_NAMES: ${{ vars.VERSION_NAMES }}
+
   setup:
     runs-on: ubuntu-latest
     outputs:
