@@ -43,8 +43,8 @@ jobs:
       - name: Generate Release Name
         id: generate
         run: |
-          COMMIT_HASH=$(git rev-parse --short HEAD || echo "unknown")
-          if [ "$COMMIT_HASH" == "unknown" ]; then
+          COMMIT_HASH=$(echo ${{ github.sha }} | cut -c1-7)
+          if [ -z "$COMMIT_HASH" ]; then
             VERSION_NAME="unknown"
           else
             RELEASE_UID=$((0x$COMMIT_HASH))
