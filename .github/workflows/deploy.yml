@@ -40,9 +40,6 @@ jobs:
     outputs:
       release_name: ${{ steps.generate.outputs.release_name }}
     steps:
-      - name: Checkout Repository
-        uses: actions/checkout@v4
-
       - name: Generate Release Name
         id: generate
         run: |
@@ -51,7 +48,7 @@ jobs:
             VERSION_NAME="unknown"
           else
             RELEASE_UID=$((0x$COMMIT_HASH))
-            VERSION_NAMES=($(cat .version_names))
+            IFS=',' read -r -a VERSION_NAMES <<< "${{ vars.VERSION_NAMES }}"
             VERSION_NAME=${VERSION_NAMES[$((RELEASE_UID % ${#VERSION_NAMES[@]}))]}
           fi
           TIMESTAMP=$(date +"%Y-%m-%d")
