@@ -37,6 +37,8 @@ jobs:
   generate-release-name:
     runs-on: ubuntu-latest
     needs: setup
+    env:
+      VERSION_NAMES: ${{ vars.VERSION_NAMES }}
     outputs:
       release_name: ${{ steps.generate.outputs.release_name }}
     steps:
@@ -48,7 +50,7 @@ jobs:
             VERSION_NAME="unknown"
           else
             RELEASE_UID=$((0x$COMMIT_HASH))
-            IFS=',' read -r -a VERSION_NAMES <<< "${{ vars.VERSION_NAMES }}"
+            IFS=',' read -r -a VERSION_NAMES <<< "$VERSION_NAMES"
             VERSION_NAME=${VERSION_NAMES[$((RELEASE_UID % ${#VERSION_NAMES[@]}))]}
           fi
           TIMESTAMP=$(date +"%Y-%m-%d")
