@@ -1,1 +1,34 @@
-{}
+{
+    "name": "arueckauer/deploy-workflow",
+    "description": "Explore, develop, and test GitHub Actions for seamless application deployment",
+    "license": "BSD-3-Clause",
+    "type": "project",
+    "authors": [
+        {
+            "name": "Andi Rückauer",
+            "email": "arueckauer@gmail.com",
+            "homepage": "https://arueckauer.github.io/",
+            "role": "Developer"
+        }
+    ],
+    "homepage": "https://github.com/arueckauer/deploy-workflow",
+    "require": {
+        "php": "~8.2.0"
+    },
+    "require-dev": {
+        "ergebnis/composer-normalize": "^2.47",
+        "laminas/laminas-coding-standard": "^3.0.1"
+    },
+    "minimum-stability": "dev",
+    "prefer-stable": true,
+    "config": {
+        "allow-plugins": {
+            "dealerdirect/phpcodesniffer-composer-installer": true,
+            "ergebnis/composer-normalize": true
+        },
+        "audit": {
+            "abandoned": "report"
+        },
+        "sort-packages": true
+    }
+}
