@@ -27,9 +27,9 @@ jobs:
               - *phpunit
               - *workflow
 
-      - name: Composer
+      - name: Composer install
         if: ${{ steps.filter.outputs.any == 'true' }}
-        run: echo "Running Composer if anything backend-related changed"
+        run: composer install --no-interaction --no-ansi --no-progress
 
       - uses: dorny/paths-filter@v3
         id: filter-changed-php-files
