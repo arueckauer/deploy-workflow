@@ -24,12 +24,25 @@ jobs:
               - *php
               - phpunit.xml.dist
             any:
+              - *phpcs
               - *phpunit
               - *workflow
 
-      - name: Composer
+      - name: Checkout code
         if: ${{ steps.filter.outputs.any == 'true' }}
-        run: echo "Running Composer if anything backend-related changed"
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        if: ${{ steps.filter.outputs.any == 'true' }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: composer
+          ini-values: date.timezone=Europe/Zurich
+
+      - name: Composer install
+        if: ${{ steps.filter.outputs.any == 'true' }}
+        run: composer install --no-interaction --no-ansi --no-progress
 
       - uses: dorny/paths-filter@v3
         id: filter-changed-php-files
