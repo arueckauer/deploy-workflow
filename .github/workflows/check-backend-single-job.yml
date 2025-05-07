@@ -9,7 +9,7 @@ jobs:
     permissions:
       pull-requests: read
     steps:
-      - uses: dorny/paths-filter@v2
+      - uses: dorny/paths-filter@v3
         id: filter
         with:
           filters: |
@@ -17,6 +17,9 @@ jobs:
               - "**/*.php"
             workflow: &workflow
               - .github/workflows/check-backend-single-job.yml
+            phpcs: &phpcs
+                - *php
+                - phpcs.xml.dist
             phpunit: &phpunit
               - *php
               - phpunit.xml.dist
@@ -27,6 +30,28 @@ jobs:
       - name: Composer
         if: ${{ steps.filter.outputs.any == 'true' }}
         run: echo "Running Composer if anything backend-related changed"
+
+      - uses: dorny/paths-filter@v3
+        id: filter-changed-php-files
+        if: ${{ steps.filter.outputs.phpcs == 'true' }}
+        with:
+          list-files: shell
+          filters: |
+            phpcs:
+              - '**/*.php'
+              - 'phpcs.xml.dist'
+
+      - name: PHP CodeSniffer on changed files
+        if: ${{ steps.filter.outputs.phpcs == 'true' }}
+        run: |
+          files="${{ steps.filter-changed-php-files.outputs.phpcs_files }}"
+          if [ -n "$files" ]; then
+            echo "Running phpcs on changed files:"
+            echo "$files"
+            vendor/bin/phpcs $files
+          else
+            echo "No PHP files changed, skipping phpcs."
+          fi
 
       - name: PHPUnit
         if: ${{ steps.filter.outputs.phpunit == 'true' }}
