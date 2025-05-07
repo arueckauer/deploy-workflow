@@ -24,8 +24,21 @@ jobs:
               - *php
               - phpunit.xml.dist
             any:
+              - *phpcs
               - *phpunit
               - *workflow
+
+      - name: Checkout code
+        if: ${{ steps.filter.outputs.any == 'true' }}
+        uses: actions/checkout@v4
+
+      - name: Set up PHP
+        if: ${{ steps.filter.outputs.any == 'true' }}
+        uses: shivammathur/setup-php@v2
+        with:
+          php-version: "8.2"
+          tools: composer
+          ini-values: date.timezone=Europe/Zurich
 
       - name: Composer install
         if: ${{ steps.filter.outputs.any == 'true' }}
