@@ -49,16 +49,16 @@ jobs:
         run: |
           git push origin HEAD:update-deps-$(date +'%Y%m%d')
 
-      - name: Clean up temp files
-        run: |
-          rm -f main.changelog main.diff
-          rm -rf vendor
-
       - name: Set DATE env
         run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Generate PR message
         run: cat .github/workflows/pr-message-template.txt main.changelog > pr-message.txt
+
+      - name: Clean up temp files
+        run: |
+          rm -f main.changelog main.diff
+          rm -rf vendor
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
