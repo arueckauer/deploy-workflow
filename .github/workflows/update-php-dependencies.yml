@@ -2,7 +2,7 @@ name: Update PHP Dependencies
 
 on:
   schedule:
-    - cron: '30 6 * * 4' # Each Thursday at 06:30
+    - cron: '04 6 * * 4' # 06:30 CET (UTC+1) → 05:30 UTC in summer, 04:30 UTC in winter
   workflow_dispatch:
 
 jobs:
@@ -17,7 +17,7 @@ jobs:
       - name: Checkout repository
         uses: actions/checkout@v4
         with:
-          fetch-depth: 0
+          fetch-depth: 1
 
       - name: Set up PHP
         uses: shivammathur/setup-php@v2
@@ -27,10 +27,7 @@ jobs:
           ini-values: date.timezone=Europe/Zurich
 
       - name: Update dependencies in main app
-        run: |
-          composer u -W
-          composer bump
-          composer u --lock
+        run: composer u -W && composer bump && composer u --lock
         working-directory: .
 
       - name: Generate main app diff
@@ -60,15 +57,14 @@ jobs:
       - name: Set DATE env
         run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
+      - name: Generate PR message
+        run: cat .github/workflows/pr-message-template.txt main.changelog > pr-message.txt
+
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
           branch: update-deps-${{ env.DATE }}
           title: "Chore: PHP dependencies update (${{ env.DATE }})"
-          body: '## Description
-
-Update dependencies to latest stable versions
-
-This commit updates the project dependencies to their latest stable versions where possible without a major update. The update includes both production and development dependencies to ensure compatibility, security, and access to the latest features.'
+          body-path: pr-message.txt
           reviewers: arueckauer
           labels: dependencies
