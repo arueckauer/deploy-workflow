@@ -41,7 +41,7 @@ jobs:
 
       - name: Clean up temp files
         run: |
-          rm -f main.changelog main.diff
+          rm -f main.diff
           rm -rf vendor
 
       - name: Commit main app changes
@@ -70,4 +70,4 @@ jobs:
           labels: dependencies
 
       - name: Remove PR message file
-        run: rm -f pr-message.txt
+        run: rm -f main.changelog pr-message.txt
