@@ -27,10 +27,7 @@ jobs:
           ini-values: date.timezone=Europe/Zurich
 
       - name: Update dependencies in main app
-        run: |
-          composer u -W
-          composer bump
-          composer u --lock
+        run: composer u -W && composer bump && composer u --lock
         working-directory: .
 
       - name: Generate main app diff
