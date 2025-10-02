@@ -53,19 +53,21 @@ jobs:
             git commit -m "$(cat .github/workflows/commit-message-template.txt; cat main.changelog)"
           fi
 
-      - name: Set DATE env
-        run: echo "DATE=$(date +'%Y%m%d')" >> $GITHUB_ENV
+      - name: Set dates env
+        run: |
+          echo "DATE_SHORT=$(date +'%Y%m%d')" >> $GITHUB_ENV
+          echo "DATE_LONG=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
 
       - name: Push changes
         run: |
-          git push origin HEAD:update-deps-${{ env.DATE }}
+          git push origin HEAD:update-deps-${{ env.DATE_SHORT }}
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
         with:
-          branch: update-deps-${{ env.DATE }}
+          branch: update-deps-${{ env.DATE_SHORT }}
           add-paths: 'composer.json,composer.lock'
-          title: "Chore: PHP dependencies update ($(date +'%Y-%m-%d'))"
+          title: "Chore: PHP dependencies update (${{ env.DATE_LONG }})"
           body-path: pr-message.txt
           reviewers: arueckauer
           labels: dependencies
