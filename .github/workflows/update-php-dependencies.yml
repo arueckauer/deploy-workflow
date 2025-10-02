@@ -36,6 +36,14 @@ jobs:
           git diff composer.json > main.diff
           php .github/workflows/diff-2-commit-message-entry.php main.diff > main.changelog
 
+      - name: Generate PR message
+        run: cat .github/workflows/pr-message-template.txt main.changelog > pr-message.txt
+
+      - name: Clean up temp files
+        run: |
+          rm -f main.changelog main.diff
+          rm -rf vendor
+
       - name: Commit main app changes
         run: |
           if git diff --quiet composer.json composer.lock; then
@@ -51,14 +59,6 @@ jobs:
 
       - name: Set DATE env
         run: echo "DATE=$(date +'%Y-%m-%d')" >> $GITHUB_ENV
-
-      - name: Generate PR message
-        run: cat .github/workflows/pr-message-template.txt main.changelog > pr-message.txt
-
-      - name: Clean up temp files
-        run: |
-          rm -f main.changelog main.diff
-          rm -rf vendor
 
       - name: Create Pull Request
         uses: peter-evans/create-pull-request@v5
