@@ -68,3 +68,6 @@ jobs:
           body-path: pr-message.txt
           reviewers: arueckauer
           labels: dependencies
+
+      - name: Remove PR message file
+        run: rm -f pr-message.txt
