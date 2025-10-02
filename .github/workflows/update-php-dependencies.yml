@@ -64,10 +64,8 @@ jobs:
         uses: peter-evans/create-pull-request@v5
         with:
           branch: update-deps-${{ env.DATE }}
+          add-paths: 'composer.json,composer.lock'
           title: "Chore: PHP dependencies update ($(date +'%Y-%m-%d'))"
           body-path: pr-message.txt
           reviewers: arueckauer
           labels: dependencies
-
-      - name: Remove PR message file
-        run: rm -f main.changelog pr-message.txt
