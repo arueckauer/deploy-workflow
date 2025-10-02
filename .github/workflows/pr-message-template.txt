@@ -2,7 +2,5 @@
 
 Update dependencies to latest stable versions
 
-This commit updates the project dependencies to their latest stable versions where possible without a major update. The update includes both production and development dependencies to ensure compatibility, security, and access to the latest features.
-
 ## Changed Versions
 
