@@ -36,7 +36,7 @@ jobs:
       - name: Generate main app diff
         id: main_diff
         run: |
-          git diff composer.json composer.lock > main.diff
+          git diff composer.json > main.diff
           php .github/workflows/diff-2-commit-message-entry.php main.diff > main.changelog
 
       - name: Commit main app changes
