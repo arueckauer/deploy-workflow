@@ -65,7 +65,6 @@ jobs:
         with:
           branch: update-deps-${{ env.DATE }}
           title: "Chore: PHP dependencies update (${{ env.DATE }})"
-          body: |
-            $(cat pr-message.txt)
+          body-path: pr-message.txt
           reviewers: arueckauer
           labels: dependencies
