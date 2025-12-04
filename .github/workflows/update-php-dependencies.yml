@@ -1,8 +1,8 @@
 name: Update PHP Dependencies
 
 on:
-  schedule:
-    - cron: '04 6 * * 4' # 06:30 CET (UTC+1) → 05:30 UTC in summer, 04:30 UTC in winter
+#  schedule:
+#    - cron: '04 6 * * 4' # 06:30 CET (UTC+1) → 05:30 UTC in summer, 04:30 UTC in winter
   workflow_dispatch:
 
 jobs:
